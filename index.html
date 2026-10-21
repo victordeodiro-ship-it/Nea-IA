@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nea IA - Sua Inteligência Pessoal</title>
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0b0c16">
+  <link rel="apple-touch-icon" href="./icon-192.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0b0c16;
+      color: #ffffff;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    .bg-gradient-nea {
+      background: linear-gradient(135deg, #18192d 0%, #0b0c16 100%);
+    }
+    .border-card {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glow-purple {
+      box-shadow: 0 0 25px rgba(168, 85, 247, 0.25);
+    }
+  </style>
+</head>
+<body class="bg-[#0b0c16] text-white min-h-screen flex flex-col justify-between selection:bg-purple-500 selection:text-white">
+
+  <!-- Header -->
+  <header class="flex items-center justify-between p-4 border-b border-white/10 sticky top-0 bg-[#0b0c16]/90 backdrop-blur z-50">
+    <div class="flex items-center space-x-3">
+      <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-purple-600 to-blue-500 flex items-center justify-center font-bold text-xl shadow-lg border border-purple-400/30">
+        N
+      </div>
+      <div>
+        <h1 class="font-bold text-lg tracking-wide">Nea <span class="text-xs bg-purple-900/60 text-purple-300 px-2 py-0.5 rounded-full border border-purple-500/30">IA</span></h1>
+      </div>
+    </div>
+    <button onclick="toggleMenu()" class="p-2 text-gray-300 hover:text-white focus:outline-none">
+      <i class="fa-solid fa-bars text-xl"></i>
+    </button>
+  </header>
+
+  <!-- Navigation Drawer (Menu Lateral) -->
+  <div id="drawer" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity">
+    <div class="w-72 bg-[#121324] h-full p-5 border-r border-white/10 flex flex-col justify-between shadow-2xl">
+      <div>
+        <div class="flex justify-between items-center mb-6">
+          <div class="flex items-center space-x-2">
+            <div class="w-8 h-8 rounded-xl bg-purple-600 flex items-center justify-center font-bold">N</div>
+            <span class="font-bold">Nea IA</span>
+          </div>
+          <button onclick="toggleMenu()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+        </div>
+
+        <button onclick="switchTab('chat')" class="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-500 hover:to-blue-400 font-semibold py-3 px-4 rounded-xl mb-6 flex items-center justify-center space-x-2 transition shadow-lg">
+          <i class="fa-solid fa-plus"></i>
+          <span>Nova conversa</span>
+        </button>
+
+        <nav class="space-y-2">
+          <button onclick="switchTab('conversas')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white text-left transition">
+            <i class="fa-regular fa-comments text-purple-400 w-5"></i>
+            <span>Conversas</span>
+          </button>
+          <button onclick="switchTab('estudio')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white text-left transition">
+            <i class="fa-regular fa-image text-purple-400 w-5"></i>
+            <span>Estúdio</span>
+          </button>
+          <button onclick="switchTab('memoria')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white text-left transition">
+            <i class="fa-solid fa-brain text-purple-400 w-5"></i>
+            <span>Memória</span>
+          </button>
+          <button onclick="switchTab('ajustes')" class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl hover:bg-white/5 text-gray-300 hover:text-white text-left transition">
+            <i class="fa-solid fa-sliders text-purple-400 w-5"></i>
+            <span>Ajustes</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- User Profile Card -->
+      <div class="pt-4 border-t border-white/10 flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center font-bold text-sm">
+          VD
+        </div>
+        <div class="overflow-hidden">
+          <p class="font-medium text-sm truncate">Victor Deodiro</p>
+          <p class="text-xs text-gray-400 truncate">victordeodiro@gmail.com</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 max-w-lg w-full mx-auto p-4 flex flex-col justify-center">
+
+    <!-- View: Chat (Home) -->
+    <div id="view-chat" class="space-y-6">
+      <div class="text-center space-y-3 my-4">
+        <span class="inline-block text-xs uppercase tracking-widest text-purple-400 bg-purple-950/60 px-3 py-1 rounded-full border border-purple-800/40">
+          <i class="fa-solid fa-wand-magic-sparkles mr-1"></i> Inteligência Pessoal
+        </span>
+        <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-purple-600 via-indigo-500 to-blue-500 p-0.5 shadow-xl glow-purple">
+          <div class="w-full h-full bg-[#0b0c16] rounded-[22px] flex items-center justify-center">
+            <span class="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">N</span>
+          </div>
+        </div>
+        <h2 class="text-3xl font-extrabold tracking-tight">Olá, eu sou a <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">Nea</span>.</h2>
+        <p class="text-sm text-gray-400 leading-relaxed px-4">
+          Sua inteligência artificial pessoal. Converse, aprenda, escreva, crie imagens e vídeos — com memória autorizada e tudo sincronizado na sua conta.
+        </p>
+      </div>
+
+      <!-- Message Container -->
+      <div id="chat-messages" class="space-y-3 min-h-[120px] max-h-[350px] overflow-y-auto p-2"></div>
+
+      <!-- Input Box -->
+      <div class="bg-[#121324] rounded-2xl p-3 border-card space-y-3 shadow-xl">
+        <textarea id="chat-input" rows="2" placeholder="Pergunte qualquer coisa à Nea..." class="w-full bg-transparent text-sm resize-none focus:outline-none text-white placeholder-gray-500"></textarea>
+        <div class="flex justify-end">
+          <button onclick="sendChatMessage()" class="bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 px-5 py-2 rounded-xl text-sm font-semibold flex items-center space-x-2 transition">
+            <span>Enviar</span>
+            <i class="fa-solid fa-arrow-up text-xs"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex justify-center space-x-3 pt-2">
+        <button onclick="switchTab('estudio')" class="bg-[#121324] hover:bg-white/10 border-card px-4 py-2.5 rounded-xl text-xs flex items-center space-x-2 text-gray-300 transition">
+          <i class="fa-regular fa-image text-purple-400"></i>
+          <span>Criar imagem</span>
+        </button>
+        <button onclick="switchTab('estudio')" class="bg-[#121324] hover:bg-white/10 border-card px-4 py-2.5 rounded-xl text-xs flex items-center space-x-2 text-gray-300 transition">
+          <i class="fa-regular fa-circle-play text-blue-400"></i>
+          <span>Criar vídeo</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- View: Estúdio -->
+    <div id="view-estudio" class="hidden space-y-6">
+      <div>
+        <h2 class="text-2xl font-bold">Estúdio</h2>
+        <p class="text-xs text-gray-400 mt-1">Descreva o que você imagina e a Nea cria imagens e vídeos originais para você.</p>
+      </div>
+
+      <!-- Tab Switcher (Imagens / Vídeos) -->
+      <div class="flex bg-[#121324] p-1 rounded-xl border-card">
+        <button id="tab-btn-img" onclick="setEstudioMode('img')" class="flex-1 py-2 rounded-lg text-xs font-medium bg-gradient-to-r from-purple-600 to-blue-500 text-white shadow">
+          <i class="fa-regular fa-image mr-1"></i> Imagens
+        </button>
+        <button id="tab-btn-video" onclick="setEstudioMode('video')" class="flex-1 py-2 rounded-lg text-xs font-medium text-gray-400 hover:text-white">
+          <i class="fa-solid fa-video mr-1"></i> Vídeos
+        </button>
+      </div>
+
+      <!-- Form Box -->
+      <div class="bg-[#121324] p-4 rounded-2xl border-card space-y-4">
+        <textarea id="prompt-input" rows="3" placeholder="Ex.: uma cidade flutuante ao amanhecer, com jardins suspensos e pássaros de luz" class="w-full bg-transparent text-sm focus:outline-none resize-none placeholder-gray-500 text-white"></textarea>
+
+        <div class="space-y-3 pt-2">
+          <div>
+            <label class="text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Estilo</label>
+            <select id="select-estilo" class="w-full bg-[#0b0c16] border border-white/10 rounded-xl p-2.5 text-xs focus:outline-none focus:border-purple-500 text-white">
+              <option value="Realista">Realista</option>
+              <option value="Cinematográfico">Cinematográfico</option>
+              <option value="Anime">Anime</option>
+              <option value="Desenho">Desenho</option>
+              <option value="Criaturas">Criaturas</option>
+              <option value="Personagens">Personagens</option>
+              <option value="Arte digital">Arte digital</option>
+              <option value="3D">3D</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="text-[10px] uppercase font-bold tracking-wider text-gray-400 block mb-1">Formato</label>
+            <select id="select-formato" class="w-full bg-[#0b0c16] border border-white/10 rounded-xl p-2.5 text-xs focus:outline-none focus:border-purple-500 text-white">
+              <option value="1:1">1:1 (Quadrado)</option>
+              <option value="16:9">16:9 (Widescreen)</option>
+              <option value="9:16">9:16 (Stories/Reels)</option>
+              <option value="4:3">4:3</option>
+              <option value="3:4">3:4</option>
+            </select>
+          </div>
+        </div>
+
+        <button onclick="generateMedia()" class="w-full bg-gradient-to-r from-purple-600 to-blue-500 hover:opacity-90 font-semibold py-3 rounded-xl text-sm flex items-center justify-center space-x-2 shadow-lg transition">
+          <i class="fa-solid fa-wand-magic-sparkles text-xs"></i>
+          <span id="btn-generate-label">Criar imagem</span>
+        </button>
+      </div>
+
+      <!-- Output / Gallery -->
+      <div>
+        <h3 class="text-sm font-semibold mb-3">Suas criações</h3>
+        <div id="media-gallery" class="bg-[#121324] rounded-2xl border-card p-6 text-center">
+          <p class="text-xs text-gray-500">Nenhuma imagem criada ainda.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- View: Memória -->
+    <div id="view-memoria" class="hidden space-y-6">
+      <div>
+        <h2 class="text-2xl font-bold flex items-center space-x-2">
+          <i class="fa-solid fa-brain text-purple-400 text-xl"></i>
+          <span>Memória</span>
+        </h2>
+        <p class="text-xs text-gray-400 mt-1">Só o que você autorizar entra na memória da Nea. Você pode revisar, corrigir e apagar quando quiser.</p>
+      </div>
+
+      <div class="bg-[#121324] p-4 rounded-2xl border-card flex items-center justify-between">
+        <div>
+          <p class="text-sm font-semibold">Usar memória nas conversas</p>
+          <p class="text-xs text-gray-400">Quando desligado, a Nea conversa sem usar nada da sua memória.</p>
+        </div>
+        <input type="checkbox" checked class="w-5 h-5 accent-purple-500 rounded cursor-pointer">
+      </div>
+
+      <div class="bg-[#121324] p-4 rounded-2xl border-card space-y-3">
+        <p class="text-xs font-semibold text-gray-300">Adicionar uma informação</p>
+        <input id="mem-text" type="text" placeholder="Ex.: prefiro respostas curtas e diretas" class="w-full bg-[#0b0c16] border border-white/10 rounded-xl p-2.5 text-xs focus:outline-none focus:border-purple-500 text-white placeholder-gray-500">
+        <select id="mem-cat" class="w-full bg-[#0b0c16] border border-white/10 rounded-xl p-2.5 text-xs focus:outline-none focus:border-purple-500 text-white">
+          <option>Preferência</option>
+          <option>Fato pessoal</option>
+          <option>Projeto</option>
+          <option>Rotina</option>
+          <option>Contato</option>
+          <option>Outro</option>
+        </select>
+        <button onclick="addMemory()" class="w-full bg-purple-600 hover:bg-purple-500 font-semibold py-2.5 rounded-xl text-xs transition">
+          + Adicionar
+        </button>
+      </div>
+
+      <div>
+        <p class="text-xs font-semibold text-gray-400 mb-2">Na memória (<span id="mem-count">0</span>)</p>
+        <div id="mem-list" class="bg-[#121324] rounded-2xl border-card p-6 text-center text-xs text-gray-500">
+          Nada na memória ainda. A Nea sugere informações ao longo das conversas e você decide o que fica.
+        </div>
+      </div>
+    </div>
+
+    <!-- View: Ajustes -->
+    <div id="view-ajustes" class="hidden space-y-6">
+      <div>
+        <h2 class="text-2xl font-bold">Ajustes</h2>
+        <p class="text-xs text-gray-400 mt-1">Conta, personalidade da Nea, privacidade e dispositivos.</p>
+      </div>
+
+      <div class="bg-[#121324] p-4 rounded-2xl border-card space-y-3">
+        <p class="text-xs uppercase font-bold text-gray-400">Sua conta</p>
+        <div class="flex items-center space-x-3">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center font-bold text-lg">VD</div>
+          <div>
+            <p class="text-sm font-semibold">Victor Deodiro</p>
+            <p class="text-xs text-gray-400">victordeodiro@gmail.com</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-[#121324] p-4 rounded-2xl border-card space-y-3">
+        <p class="text-xs uppercase font-bold text-gray-400">Como a Nea fala</p>
+        <div>
+          <label class="text-[10px] text-gray-400 uppercase font-semibold">Nome da assistente</label>
+          <input type="text" value="Nea" class="w-full bg-[#0b0c16] border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none">
+        </div>
+        <div>
+          <label class="text-[10px] text-gray-400 uppercase font-semibold">Personalidade</label>
+          <select class="w-full bg-[#0b0c16] border border-white/10 rounded-xl p-2.5 text-xs text-white focus:outline-none">
+            <option>Amigável e acolhedora</option>
+            <option>Direta e objetiva</option>
+            <option>Criativa e inspiradora</option>
+            <option>Técnica e analítica</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- View: Conversas -->
+    <div id="view-conversas" class="hidden space-y-4">
+      <h2 class="text-2xl font-bold">Conversas</h2>
+      <p class="text-xs text-gray-400">Tudo o que você e a Nea conversaram, sincronizado na sua conta.</p>
+      <div class="bg-[#121324] rounded-2xl border-card p-6 text-center text-xs text-gray-500">
+        Você ainda não tem conversas salvas.
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function toggleMenu() {
+      const drawer = document.getElementById('drawer');
+      drawer.classList.toggle('hidden');
+    }
+
+    function switchTab(tab) {
+      const views = ['chat', 'estudio', 'memoria', 'ajustes', 'conversas'];
+      views.forEach(v => {
+        document.getElementById(`view-${v}`).classList.add('hidden');
+      });
+      document.getElementById(`view-${tab}`).classList.remove('hidden');
+      document.getElementById('drawer').classList.add('hidden');
+    }
+
+    function setEstudioMode(mode) {
+      const btnImg = document.getElementById('tab-btn-img');
+      const btnVid = document.getElementById('tab-btn-video');
+      const label = document.getElementById('btn-generate-label');
+      
+      if (mode === 'img') {
+        btnImg.className = "flex-1 py-2 rounded-lg text-xs font-medium bg-gradient-to-r from-purple-600 to-blue-500 text-white shadow";
+        btnVid.className = "flex-1 py-2 rounded-lg text-xs font-medium text-gray-400 hover:text-white";
+        label.innerText = "Criar imagem";
+      } else {
+        btnVid.className = "flex-1 py-2 rounded-lg text-xs font-medium bg-gradient-to-r from-purple-600 to-blue-500 text-white shadow";
+        btnImg.className = "flex-1 py-2 rounded-lg text-xs font-medium text-gray-400 hover:text-white";
+        label.innerText = "Criar vídeo";
+      }
+    }
+
+    function sendChatMessage() {
+      const input = document.getElementById('chat-input');
+      const messages = document.getElementById('chat-messages');
+      if (!input.value.trim()) return;
+
+      const userText = input.value;
+      messages.innerHTML += `<div class="bg-purple-900/40 border border-purple-500/20 p-3 rounded-2xl text-xs text-purple-100 self-end ml-8">${userText}</div>`;
+      input.value = '';
+
+      setTimeout(() => {
+        messages.innerHTML += `<div class="bg-[#121324] border border-white/10 p-3 rounded-2xl text-xs text-gray-200 mr-8">Entendido! Como sua assistente pessoal Nea, estou pronta para te ajudar com isso.</div>`;
+        messages.scrollTop = messages.scrollHeight;
+      }, 500);
+    }
+
+    let memories = [];
+    function addMemory() {
+      const input = document.getElementById('mem-text');
+      const cat = document.getElementById('mem-cat').value;
+      if (!input.value.trim()) return;
+
+      memories.push({ text: input.value, category: cat });
+      input.value = '';
+      
+      document.getElementById('mem-count').innerText = memories.length;
+      const list = document.getElementById('mem-list');
+      list.innerHTML = memories.map(m => `
+        <div class="flex justify-between items-center bg-[#0b0c16] p-2.5 rounded-xl border border-white/5 mb-2 text-left">
+          <span class="text-gray-200">${m.text}</span>
+          <span class="text-[10px] bg-purple-900/50 text-purple-300 px-2 py-0.5 rounded-full border border-purple-500/30">${m.category}</span>
+        </div>
+      `).join('');
+    }
+
+    function generateMedia() {
+      const prompt = document.getElementById('prompt-input').value;
+      if (!prompt.trim()) return;
+      const gallery = document.getElementById('media-gallery');
+      gallery.innerHTML = `
+        <div class="space-y-2">
+          <img src="https://picsum.photos/400/400?random=${Math.random()}" class="w-full h-64 object-cover rounded-xl border border-purple-500/30 shadow-lg">
+          <p class="text-xs text-gray-400 italic">"${prompt}"</p>
+        </div>
+      `;
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
