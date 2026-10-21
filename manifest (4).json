@@ -1,0 +1,25 @@
+{
+  "short_name": "Nea IA",
+  "name": "Nea IA - Sua Inteligência Pessoal",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "./index.html",
+  "background_color": "#0b0c16",
+  "theme_color": "#0b0c16",
+  "display": "standalone",
+  "orientation": "portrait",
+  "scope": "./",
+  "description": "Assistente Pessoal com Inteligência Artificial, geração de imagens, memória e conversas."
+}
